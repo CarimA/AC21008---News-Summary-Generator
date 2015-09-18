@@ -37,7 +37,7 @@ public class markovChainNode {
                 break;
             }
         }
-  
+        
         if (!found)
             // it doesn't exist, therefore it needs to be added.
             successors.add(new markovChainNode(word));
@@ -48,5 +48,12 @@ public class markovChainNode {
                     mCN.incrementCount();
                 }
             }
+    }
+    
+    public String toString() {
+        // if we do have successors, add them.
+        String succession = successors.toArray().length == 0 ? "" : "Successors: { " + successors.toString() + "} ";
+        
+        return this.getData() + " (" + this.getCount() + ") " + succession;
     }
 }
