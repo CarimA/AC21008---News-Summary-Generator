@@ -96,22 +96,25 @@ public class markovChainNode
         return temp;
     }
     
-    markovChainNode getWeightedRandomNode() {
-        int tempCount = 0;
-        markovChainNode temp = null;
-        
+    markovChainNode getWeightedRandomNode() {        
         Random r = new Random();
         int num = r.nextInt(this.getNodeTotal());
-        int count = 0;
+        int count = -1;
         
         for (markovChainNode mCN : this.successors) {
-            count++;
-            if (count == num) {
-                return mCN;
+            for (int i = 0; i < mCN.getNodeTotal(); i++) {
+                count++;
+                System.out.println(mCN.toString(0));
+                if (count <= num) {
+                    return mCN;
+                }
             }
         }
-        return temp;
+        // shouldn't have reached this point.
+        System.out.println("Reached");
+        return null;
     }
+    
     public String toString(int place) 
     {
         char[] charArray = new char[place * 2];
