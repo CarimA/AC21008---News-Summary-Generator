@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package articlesummariser;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  *
@@ -47,36 +50,91 @@ public class markovChainNode
     
     public void addSuccessor(String word) 
     {
-        boolean found = false;
-        // check if word exists.
-        for (markovChainNode mCN : successors) 
-        {
-            if (mCN.getData().equals(word)) 
-            {
-                found = true;
-                break;
-            }
+        if (this.getNode(word) == null) {
+            // it doesn't exist. add it and set its count to 0.
+            this.successors.add(new markovChainNode(word));
+            //System.out.println("Added successor '" + word + "' to '" + this.getData() + "'");
+        }
+        else {
+            // it exists. Incrememnt it's count.
+            this.getNode(word).incrementCount();
+            //System.out.println("Incremented successor '" + word + "' for '" + this.getData() + "'");
         }
         
-        if (!found)
-            // it doesn't exist, therefore it needs to be added.
-            successors.add(new markovChainNode(word));
-        else
-            // it does exist, therefore the count should be incremented.
-            for (markovChainNode mCN : successors) 
-            {
-                if (mCN.getData().equals(word)) 
-                {
-                    mCN.incrementCount();
-                }
-            }
     }
     
-    public String toString() 
-    {
-        // if we do have successors, add them.
-        String succession = successors.toArray().length == 0 ? "" : "Successors: { " + successors.toString() + "} ";
+    markovChainNode getNode(String word) {
+        for (markovChainNode mCN : this.successors) 
+        {
+            if (mCN.getData().equals(word))
+                return mCN;
+        }
         
-        return this.getData() + " (" + this.getCount() + ") " + succession;
+        return null;
+    }
+    
+    markovChainNode getMostFrequentNode() {
+        int tempCount = 0;
+        markovChainNode temp = null;
+        
+        for (markovChainNode mCN : this.successors) {
+            if (mCN.getCount() > tempCount) {             
+                tempCount = mCN.getCount();
+                temp = mCN;
+            }
+            else if (mCN.getCount() == tempCount) {
+                // if it's the same, have a 50/50 chance of changing   
+                Random r = new Random();
+                int num = r.nextInt(2);
+                if (num == 1)
+                {         
+                    tempCount = mCN.getCount();
+                    temp = mCN;
+                }
+            }
+        }
+        return temp;
+    }
+    
+    markovChainNode getWeightedRandomNode() {
+        int tempCount = 0;
+        markovChainNode temp = null;
+        
+        Random r = new Random();
+        int num = r.nextInt(this.getNodeTotal());
+        int count = 0;
+        
+        for (markovChainNode mCN : this.successors) {
+            count++;
+            if (count == num) {
+                return mCN;
+            }
+        }
+        return temp;
+    }
+    public String toString(int place) 
+    {
+        char[] charArray = new char[place * 2];
+        Arrays.fill(charArray, '-');
+        String str = new String(charArray);
+        
+        String out = str + this.getData() + "[" + this.getCount() + "]\r\n";
+        for (markovChainNode mCN : this.successors)
+            out += str + mCN.toString(place + 1);
+        
+        return out;
+
+    /*    // if we do have successors, add them.
+        String succession = successors.toArray().length == 0 ? "" : "(Successors: { " + successors.toString() + "})";
+        
+        return this.getData() + " [" + this.getCount() + "] " + succession;*/
+    }
+    
+    int getNodeTotal() {
+        int out = 0;
+        for (markovChainNode mCN : this.successors) {
+            out += mCN.getCount();
+        }
+        return out;
     }
 }

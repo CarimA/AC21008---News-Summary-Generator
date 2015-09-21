@@ -22,7 +22,9 @@ public class main {
 "Random selection is a method of selecting items (often called units) from a population where the probability of choosing a specific item is the proportion of those items in the population. For example, with a bowl containing just 10 red marbles and 90 blue marbles, a random selection mechanism would choose a red marble with probability 1/10. Note that a random selection mechanism that selected 10 marbles from this bowl would not necessarily result in 1 red and 9 blue. In situations where a population consists of items that are distinguishable, a random selection mechanism requires equal probabilities for any item to be chosen. That is, if the selection process is such that each member of a population, of say research subjects, has the same probability of being chosen then we can say the selection process is random.");
         
         
-        System.out.println(mc.root.toString());
+        //System.out.println(mc.root.toString(0));
+        
+        System.out.println(mc.generateWeightedRandomSentence());
     }
     
 }

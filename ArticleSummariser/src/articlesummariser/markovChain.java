@@ -25,48 +25,52 @@ public class markovChain
         
         for (int i = 0; i < items.length; i++) 
         {
-            markovChainNode temp = new markovChainNode(items[i]);
+            String word = items[i].trim();
+            markovChainNode temp = root.getNode(word);
+            if (temp == null)
+                temp = new markovChainNode(word);
+            
+            root.addSuccessor(temp.getData());   
+            
             if (i < items.length - 1)
-                temp.addSuccessor(items[i + 1]);
-            
-            this.addWord(items[i]);
-            if (i < items.length - 1)
-                temp.addSuccessor(items[i + 1]);
-            
-            
+                root.getNode(word).addSuccessor(items[i + 1]);
             
         }
     }
     
-    public void addWord(String word) 
-    {
-        this.root.addSuccessor(word);
-    }
-    
-    public void addWordSuccessor(String word, String successor) 
-    {
-        boolean found = false;
-        // check if word exists.
-        for (markovChainNode mCN : this.root.successors) 
-        {
-            if (mCN.getData().equals(word)) 
-            {
-                found = true;
-                break;
-            }
+    String generateFrequentSentence() {
+        int count = 0;
+        String temp = this.root.getMostFrequentNode().getData();
+        String output = "";
+        markovChainNode n = this.root.getNode(temp);
+        while (count < 250 && n != null) {
+            output += temp + " ";
+            //System.out.println(output);
+            //System.out.println(temp);
+            n = this.root.getNode(temp);
+            //System.out.println(n.toString(0));
+            temp = n.getMostFrequentNode().getData();
+            count++;
         }
         
-        if (!found)
-            // it doesn't exist, therefore it needs to be added.
-            this.root.successors.add(new markovChainNode(word));
-        else
-            // it does exist, therefore the count should be incremented.
-            for (markovChainNode mCN : this.root.successors) 
-            {
-                if (mCN.getData().equals(word)) 
-                {
-                    mCN.incrementCount();
-                }
-            }
+        return output;
+    }
+    
+    String generateWeightedRandomSentence() {
+        int count = 0;
+        String temp = this.root.getWeightedRandomNode().getData();
+        String output = "";
+        markovChainNode n = this.root.getNode(temp);
+        while (count < 250 && n != null) {
+            output += temp + " ";
+            //System.out.println(output);
+            //System.out.println(temp);
+            n = this.root.getNode(temp);
+            //System.out.println(n.toString(0));
+            temp = n.getWeightedRandomNode().getData();
+            count++;
+        }
+        
+        return output;
     }
 }
