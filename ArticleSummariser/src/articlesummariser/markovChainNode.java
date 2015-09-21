@@ -10,29 +10,49 @@ import java.util.ArrayList;
  *
  * @author Carim A
  */
-public class markovChainNode {
+public class markovChainNode 
+{
     public String data;
     public int count;
     ArrayList<markovChainNode> successors;
     
-    public String getData() { return this.data; }
-    public int getCount() { return this.count; }
+    public String getData() 
+    { 
+        return this.data; 
+    }
+    public int getCount() 
+    { 
+        return this.count; 
+    }
     
-    public void setData(String data) { this.data = data; }
-    public void setCount(int count){ this.count = count; }
-    public void incrementCount() { this.count++; }
+    public void setData(String data) 
+    { 
+        this.data = data; 
+    }
+    public void setCount(int count)
+    { 
+        this.count = count; 
+    }
+    public void incrementCount() 
+    { 
+        this.count++; 
+    }
     
-    public markovChainNode(String word) {
+    public markovChainNode(String word) 
+    {
         this.data = word;
         this.count = 1;
         this.successors = new ArrayList<markovChainNode>();
     }
     
-    public void addSuccessor(String word) {
+    public void addSuccessor(String word) 
+    {
         boolean found = false;
         // check if word exists.
-        for (markovChainNode mCN : successors) {
-            if (mCN.getData().equals(word)) {
+        for (markovChainNode mCN : successors) 
+        {
+            if (mCN.getData().equals(word)) 
+            {
                 found = true;
                 break;
             }
@@ -43,14 +63,17 @@ public class markovChainNode {
             successors.add(new markovChainNode(word));
         else
             // it does exist, therefore the count should be incremented.
-            for (markovChainNode mCN : successors) {
-                if (mCN.getData().equals(word)) {
+            for (markovChainNode mCN : successors) 
+            {
+                if (mCN.getData().equals(word)) 
+                {
                     mCN.incrementCount();
                 }
             }
     }
     
-    public String toString() {
+    public String toString() 
+    {
         // if we do have successors, add them.
         String succession = successors.toArray().length == 0 ? "" : "Successors: { " + successors.toString() + "} ";
         

@@ -13,15 +13,18 @@ import java.lang.*;
  *
  * @author Carim A
  */
-public class markovChain {
+public class markovChain 
+{
     markovChainNode root;
     String[] items;
     
-    public markovChain(String article) {
+    public markovChain(String article) 
+    {
         this.items = article.toLowerCase().split(" ");
         this.root = new markovChainNode("");
         
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < items.length; i++) 
+        {
             markovChainNode temp = new markovChainNode(items[i]);
             if (i < items.length - 1)
                 temp.addSuccessor(items[i + 1]);
@@ -35,15 +38,19 @@ public class markovChain {
         }
     }
     
-    public void addWord(String word) {
+    public void addWord(String word) 
+    {
         this.root.addSuccessor(word);
     }
     
-    public void addWordSuccessor(String word, String successor) {
+    public void addWordSuccessor(String word, String successor) 
+    {
         boolean found = false;
         // check if word exists.
-        for (markovChainNode mCN : this.root.successors) {
-            if (mCN.getData().equals(word)) {
+        for (markovChainNode mCN : this.root.successors) 
+        {
+            if (mCN.getData().equals(word)) 
+            {
                 found = true;
                 break;
             }
@@ -54,8 +61,10 @@ public class markovChain {
             this.root.successors.add(new markovChainNode(word));
         else
             // it does exist, therefore the count should be incremented.
-            for (markovChainNode mCN : this.root.successors) {
-                if (mCN.getData().equals(word)) {
+            for (markovChainNode mCN : this.root.successors) 
+            {
+                if (mCN.getData().equals(word)) 
+                {
                     mCN.incrementCount();
                 }
             }
